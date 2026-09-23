@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const BASE_URL = import.meta.env.VITE_API_URL || '';
+
 const STATES = [
   "Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh",
   "Goa","Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka",
@@ -54,7 +56,7 @@ function Register() {
       if (payload.age) payload.age = Number(payload.age);
       if (payload.annualIncome) payload.annualIncome = Number(payload.annualIncome);
 
-      const response = await axios.post("/api/auth/register", payload);
+      const response = await axios.post(`${BASE_URL}/api/auth/register`, payload);
       if (response.data.success) {
         toast.success("Account created! Please login.");
         navigate("/login");

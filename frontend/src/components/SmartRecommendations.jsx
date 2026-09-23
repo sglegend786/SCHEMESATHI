@@ -4,6 +4,8 @@ import { Sparkles, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+const BASE_URL = import.meta.env.VITE_API_URL || '';
+
 function SmartRecommendations() {
   const { token, user } = useContext(AuthContext);
   const [recommendations, setRecommendations] = useState([]);
@@ -25,7 +27,7 @@ function SmartRecommendations() {
         if (user.isFarmer) params.isFarmer = true;
         if (user.occupation) params.occupation = user.occupation;
 
-        let res = await axios.get('/api/schemes', {
+        let res = await axios.get(`${BASE_URL}/api/schemes`, {
           params,
           headers: { Authorization: `Bearer ${token}` }
         });
@@ -33,7 +35,7 @@ function SmartRecommendations() {
         if (res.data.data.length === 0) {
           // Fallback 1: Try broader category if student
           if (user.isStudent || (user.occupation && user.occupation.toLowerCase().includes('student'))) {
-            res = await axios.get('/api/schemes', {
+            res = await axios.get(`${BASE_URL}/api/schemes`, {
               params: { limit: 3, category: 'Education & Learning' },
               headers: { Authorization: `Bearer ${token}` }
             });
@@ -41,7 +43,7 @@ function SmartRecommendations() {
           
           // Fallback 2: General state-wise
           if (res.data.data.length === 0) {
-            res = await axios.get('/api/schemes', {
+            res = await axios.get(`${BASE_URL}/api/schemes`, {
               params: { limit: 3, state: user.state },
               headers: { Authorization: `Bearer ${token}` }
             });

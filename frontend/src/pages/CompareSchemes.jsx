@@ -18,7 +18,7 @@ function CompareSchemes() {
 
   useEffect(() => {
     // Fetch all schemes so user can select them
-    axios.get('/api/schemes').then(res => {
+    axios.get(`${BASE_URL}/api/schemes`).then(res => {
       const allSchemes = res.data.data;
       setSchemes(allSchemes);
       setLoading(false);
