@@ -18,6 +18,8 @@ import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 import axios from "axios";
 
+const BASE_URL = import.meta.env.VITE_API_URL || '';
+
 
 function SchemeDetails() {
 
@@ -46,7 +48,7 @@ function SchemeDetails() {
     if (!token) return;
     setAiLoading(true);
     try {
-      const res = await axios.post(`/api/ai/eligibility/${id}`, {}, {
+      const res = await axios.post(`${BASE_URL}/api/ai/eligibility/${id}`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setAiEligibility(res.data.data);

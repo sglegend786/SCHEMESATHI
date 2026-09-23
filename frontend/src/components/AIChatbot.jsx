@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { Bot, X, Mic, Send, Volume2, VolumeX } from 'lucide-react';
+import { Bot, X, Send, Volume2, VolumeX } from 'lucide-react';
 import axios from 'axios';
+
+const BASE_URL = import.meta.env.VITE_API_URL || '';
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const synth = window.speechSynthesis;
@@ -95,7 +97,7 @@ function AIChatbot() {
     try {
       const lang = botLang;
 
-      const res = await axios.post('/api/ai/chat', { message: text, language: lang }, {
+      const res = await axios.post(`${BASE_URL}/api/ai/chat`, { message: text, language: lang }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const aiReply = res.data.reply;

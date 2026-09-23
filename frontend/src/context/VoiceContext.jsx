@@ -3,6 +3,8 @@ import { AuthContext } from './AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
+const BASE_URL = import.meta.env.VITE_API_URL || '';
+
 export const VoiceContext = createContext();
 
 export const VoiceProvider = ({ children }) => {
@@ -255,7 +257,7 @@ export const VoiceProvider = ({ children }) => {
         contextData = { currentScheme: titleEl ? titleEl.innerText : 'Unknown Scheme' };
       }
 
-      const res = await axios.post('/api/ai/intent', {
+      const res = await axios.post(`${BASE_URL}/api/ai/intent`, {
         transcript: text,
         currentUrl: location.pathname,
         contextData,

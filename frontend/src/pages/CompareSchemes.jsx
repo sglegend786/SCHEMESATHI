@@ -4,6 +4,8 @@ import axios from 'axios';
 import { ArrowLeft, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
+const BASE_URL = import.meta.env.VITE_API_URL || '';
+
 function CompareSchemes() {
   const { token } = useContext(AuthContext);
   const [schemes, setSchemes] = useState([]);
@@ -96,7 +98,7 @@ function CompareSchemes() {
     setComparing(true);
     setComparison(null);
     try {
-      const res = await axios.post('/api/ai/compare', { schemeIds: ids }, {
+      const res = await axios.post(`${BASE_URL}/api/ai/compare`, { schemeIds: ids }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setComparison(res.data.data.comparison);
