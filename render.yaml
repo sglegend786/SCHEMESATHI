@@ -1,0 +1,45 @@
+# render.yaml - Render deployment config for SchemeSathi
+services:
+  # Backend API Service
+  - type: web
+    name: schemesathi-backend
+    env: node
+    region: singapore
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: MISTRAL_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GMAIL_USER
+        sync: false
+      - key: GMAIL_APP_PASSWORD
+        sync: false
+      - key: VAPID_KEY
+        sync: false
+
+  # Frontend Static Site
+  - type: web
+    name: schemesathi-frontend
+    env: static
+    region: singapore
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
